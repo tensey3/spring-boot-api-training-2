@@ -22,4 +22,4 @@ bin/
 .vscode/
 
 ### h2DB ###
-h2db/
+h2db.mv.h2.db

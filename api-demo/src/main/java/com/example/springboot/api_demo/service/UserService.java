@@ -3,11 +3,13 @@ package com.example.springboot.api_demo.service;
 import java.util.ArrayList;
 import java.util.List;
 // import java.util.stream.Collectors;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.springboot.api_demo.dto.UserResponseDto;
+import com.example.springboot.api_demo.dto.user.UserRequestDto;
+import com.example.springboot.api_demo.dto.user.UserResponseDto;
 import com.example.springboot.api_demo.entity.UserEntity;
 import com.example.springboot.api_demo.repository.UserRepository;
 import com.example.springboot.api_demo.utils.UserMapper;
@@ -38,7 +40,19 @@ public class UserService implements UserServiceInterface {
     }
     @Override
     public UserResponseDto findUserById(Long id) {
-        var entity = repository.findById(id).get();
+        final var entity = repository.findById(id)
+        .orElseThrow(() -> new NoSuchElementException("指定されたIDのユーザーは存在しません。"));
         return mapper.mapToDto(entity);
+    }
+
+    @Override
+    public UserResponseDto addUser(UserRequestDto dto) {
+        var entity = UserEntity
+        .builder()
+        .name(dto.getName())
+        .email(dto.getEmail())
+        .isActive(dto.isActive())
+        .build();
+        return mapper.mapToDto(repository.save(entity));
     }
 }

@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.example.springboot.api_demo.dto.UserResponseDto;
+import com.example.springboot.api_demo.dto.user.UserRequestDto;
+import com.example.springboot.api_demo.dto.user.UserResponseDto;
 import com.example.springboot.api_demo.service.UserService;
 
 @Component
@@ -20,5 +21,9 @@ public class UserUsecase implements UserUsecaseInterface {
     @Override
     public UserResponseDto findUserById(Long id) {
         return service.findUserById(id);
+    }
+    @Override
+    public UserResponseDto addUser(UserRequestDto dto) {
+        return service.addUser(dto);
     }
 }
